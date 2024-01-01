@@ -1,0 +1,16 @@
+version: '3.0'
+services:
+  code-review-app:
+    container_name: code-review-docker
+    tty: true
+    restart: always
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - .:/app
+    ports:
+      - 3000:3000
+    
