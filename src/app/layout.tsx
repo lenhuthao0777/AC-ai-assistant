@@ -1,10 +1,12 @@
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import type { Metadata } from 'next';
+
 import './globals.css';
-import { cn } from '@/lib/utils';
-import TanstackProvider from '@/providers/tanstack.provider';
 import NextAuthProvider from '@/providers/next-auth.provider';
+import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
+import { ReviewProvider } from '@/providers/review.provider';
+// import TanstackProvider from '@/providers/tanstack.provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={(cn(inter.className), 'bg-gray-100')}>
-        <TanstackProvider>
-          <NextAuthProvider>{children}</NextAuthProvider>
-        </TanstackProvider>
+        <NextAuthProvider>
+          <ReviewProvider>{children}</ReviewProvider>
+        </NextAuthProvider>
         <Toaster />
       </body>
     </html>

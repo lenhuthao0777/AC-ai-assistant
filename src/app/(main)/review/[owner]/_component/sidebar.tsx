@@ -1,26 +1,23 @@
 'use client';
-import { ChevronsLeft, FileCode2 } from 'lucide-react';
-import parse, { Change } from 'parse-diff';
+
+import { ChevronsLeft } from 'lucide-react';
 import { useMemo } from 'react';
 
 import Logo from '@/components/logo';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Files } from '@/providers/review.provider';
 
-export default function Sidebar({ diff }: { diff: any }) {
-  const files = useMemo(() => {
+export default function Sidebar({ files }: { files?: any }) {
+  const fileList = useMemo(() => {
     let result: Array<any> = [];
-    result = parse(String(diff.data));
+    const f = files.filter((item: Files) => {
+      if (!item.filename.includes('.tsx')) return;
+      return item;
+    });
 
-    const files = result.reduce((arr: Array<any> = [], item: any) => {
-      if (item.from.includes('lock.json')) return;
-      arr.push({
-        newFile: item.to,
-      });
-      return arr;
-    }, []);
-
-    return files;
-  }, []);
+    return f;
+  }, [files]);
 
   return (
     <aside className='group/sidebar w-60 h-screen bg-gray-200 shadow-md'>
@@ -32,22 +29,19 @@ export default function Sidebar({ diff }: { diff: any }) {
       </div>
       <nav className='px-3 py-2 overflow-y-auto'>
         <ul className='flex flex-col'>
-          {files?.map((file) => (
+          {fileList?.map((file: Files) => (
             <li
-              key={file.newFile}
-              className='py-2 flex items-centers space-x-2'
+              key={file.sha}
+              className='py-2 flex items-centers space-x-2 border-b-2 border-gray-50 last:border-transparent'
             >
               <Checkbox
-                onCheckedChange={(value) => {
-                  console.log(value);
+                onCheckedChange={(event) => {
+                  console.log(event);
                 }}
               />
-              <p className='flex items-center space-x-2'>
-                <FileCode2 className='w-5 h-5' />
-                <span className='text-xs max-w-32 text-gray-500 cursor-pointer hover:underline line-clamp-1'>
-                  {file.newFile}
-                </span>
-              </p>
+              <Label className='text-xs text-nowrap text-gray-500 cursor-pointer hover:underline line-clamp-1'>
+                {file.filename}
+              </Label>
             </li>
           ))}
         </ul>

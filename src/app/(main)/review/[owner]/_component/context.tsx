@@ -34,7 +34,7 @@ export type FileInfoWithDiff = {
   rawString: string;
 };
 
-export default function Context({ diff }: { diff: any }) {
+export default function Context({ diff }: { diff?: any }) {
   const [open, setOpen] = useState(false);
 
   const oldCode = `
@@ -57,13 +57,11 @@ if(a === 10) {
 }
 `;
 
-  const abc = useMemo(() => {
-    const parseDiff = parse(String(diff.data));
+  // const abc = useMemo(() => {
+  //   const parseDiff = parse(String(diff.data));
 
-    return parseDiff;
-  }, []);
-
-  console.log(diff);
+  //   return parseDiff;
+  // }, []);
 
   return (
     <div className='w-full p-5 overflow-y-auto'>

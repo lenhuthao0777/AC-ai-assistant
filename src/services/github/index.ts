@@ -38,8 +38,19 @@ class GithubService {
     });
   }
 
-  static getFile(){
-    return octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files')
+  static getFiles(owner: string, repo: string, pullNumber: number) {
+    return octokit.request(
+      'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
+      {
+        owner,
+        repo,
+        pull_number: pullNumber,
+        headers: {
+          'X-GitHub-Api-Version': '2022-11-28',
+          // accept: 'application/vnd.github.v3.diff',
+        },
+      }
+    );
   }
 }
 

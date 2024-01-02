@@ -49,7 +49,3 @@ ${content}
  `;
 
 export default getReviewPrompt;
-
-
-
-const test = ''

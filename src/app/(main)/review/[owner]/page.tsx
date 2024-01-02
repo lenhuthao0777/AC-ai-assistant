@@ -11,9 +11,11 @@ export default async function Page({
   params: { owner: string };
   searchParams: { repository: string; pull_number: string };
 }) {
-  const repo = await GithubService.getRepo(owner, repository);
-
-  const diff = await GithubService.getDiff(owner, repository, +pull_number);
+  const [repo, diff, files] = await Promise.all([
+    GithubService.getRepo(owner, repository),
+    GithubService.getDiff(owner, repository, +pull_number),
+    GithubService.getFiles(owner, repository, +pull_number),
+  ]);
 
   if (repo.status !== 200) {
     redirect('/');
@@ -21,8 +23,8 @@ export default async function Page({
 
   return (
     <div className='flex'>
-      <Sidebar diff={diff} />
-      <Context diff={diff} />
+      <Sidebar files={files.data} />
+      <Context />
     </div>
   );
 }
