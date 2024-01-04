@@ -32,9 +32,6 @@ export default function Repo({ pulls }: { pulls: any }) {
     return name;
   }, [pathName, searchParams]);
 
-  console.log(pulls);
-  
-
   return (
     <div className='container mt-5'>
       <Collapsible

@@ -16,7 +16,7 @@ export const Page = async ({
     return null;
   }
 
-  return <Repo pulls={pulls.data} />;
+  return <Repo pulls={pulls?.data} />;
 };
 
 export default Page;

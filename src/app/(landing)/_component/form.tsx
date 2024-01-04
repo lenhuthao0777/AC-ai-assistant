@@ -86,11 +86,8 @@ const FormRepo = () => {
         setLocal('repository', value.repository);
         router.push('/sign-in');
       }
-
       const link = handleFormatLinkRepo(value.repository).split('/');
-
       const repo = await GithubService.getRepo(link[0], link[1]);
-
       if (repo) {
         router.push(`/repository/${link[0]}?repository=${link[1]}`);
       }
