@@ -6,6 +6,7 @@ import octokit from '@/lib/octokit';
 
 class GithubService {
   static url = process.env.NEXT_PUBLIC_GITHUB_API;
+  static test = '';
   static headers: any = {
     'X-GitHub-Api-Version': '2022-11-28',
   };
