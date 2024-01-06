@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import parse, { Change } from 'parse-diff';
 import Diff from './diff';
 import { useAppSelector } from '@/redux/hook';
+import { File } from 'gitdiff-parser';
 
 enum DiffMethod {
   CHARS = 'diffChars',
@@ -26,12 +27,12 @@ export type FileInfoWithDiff = {
 export default function Content() {
   const state = useAppSelector((state) => state.review);
 
-  console.log(state);
-
   return (
-    <div className='w-full p-5 overflow-y-auto'>
+    <div className='w-full max-h-screen p-5 overflow-y-auto'>
       <div className='w-full flex flex-col space-y-3'>
-        <Diff />
+        {state?.files.map((item: File) => (
+          <Diff key={item.newPath} diff={item} />
+        ))}
       </div>
     </div>
   );

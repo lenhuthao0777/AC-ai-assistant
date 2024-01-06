@@ -54,6 +54,25 @@ class GithubService {
       }
     );
   }
+
+  // https://api.github.com/repos/$USER/$REPO/contents/$FILE_PATH?ref=pull/$PR_NUMBER
+
+  static getFile(
+    owner: string,
+    repo: string,
+    pullNumber: number,
+    filePath: string
+  ) {
+    return octokit.request(
+      `GET /repos/{owner}/{repo}/contents/{path}?ref=pull/${pullNumber}`,
+      {
+        owner,
+        repo,
+        path: filePath,
+        headers: { 'X-GitHub-Api-Version': '2022-11-28' },
+      }
+    );
+  }
 }
 
 export default GithubService;
