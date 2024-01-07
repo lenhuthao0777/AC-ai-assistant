@@ -1,5 +1,3 @@
-import parse, { Change } from 'parse-diff';
-
 import octokit from '@/lib/octokit';
 
 // 'https://api.github.com/repos/lenhuthao0777/education-pj/git/trees{/sha}'

@@ -28,9 +28,17 @@ import {
 } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 
 interface DiffProps {
-  diff?: File;
+  diff: File;
 }
 
 function CodeCopyBtn({ children }: React.PropsWithChildren) {
@@ -118,6 +126,7 @@ function CodeMarkdown({ children, className, node, ...rest }: any) {
 
 const DiffComponent: FC<DiffProps> = ({ diff }) => {
   const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const renderFile = ({ oldRevision, newRevision, type, hunks }: any) => {
     return (
@@ -158,9 +167,31 @@ const DiffComponent: FC<DiffProps> = ({ diff }) => {
                 {diff?.newPath}
               </p>
             </div>
-            <Button className='bg-green-700 hover:bg-green-700/90'>
-              Review
-            </Button>
+            <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+              <DialogTrigger asChild>
+                <Button className='bg-green-700 hover:bg-green-700/90'>
+                  Review
+                </Button>
+              </DialogTrigger>
+              <DialogContent className='max-w-[90vw]'>
+                <DialogHeader className='text-2xl font-semibold'>
+                  Review Form
+                </DialogHeader>
+
+                <div className='max-h-[70vh] overflow-y-auto border border-gray-200 rounded-md'>
+                  <ul>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Maxime necessitatibus ipsam eligendi placeat voluptate
+                      sequi porro sapiente vitae tenetur temporibus.
+                    </li>
+                  </ul>
+                </div>
+                <DialogFooter>
+                  <Button>test</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </CollapsibleTrigger>
 
