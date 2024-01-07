@@ -14,6 +14,7 @@ export default async function Page({
   const [diff, files] = await Promise.all([
     GithubService.getDiff(owner, repository, +pull_number),
     GithubService.getFiles(owner, repository, +pull_number),
+    // GithubService.getFile(owner, repository, +pull_number, 'src/apis/user.ts'),
   ]);
 
   if (!diff?.data) {
@@ -21,9 +22,8 @@ export default async function Page({
   }
 
   return (
-    <div className='flex'>
-      <Sidebar files={files.data} diff={diff.data} />
-      <Content />
+    <div className='container'>
+      <Content diff={diff.data} />
     </div>
   );
 }

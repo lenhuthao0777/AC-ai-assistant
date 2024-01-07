@@ -139,7 +139,7 @@ const DiffComponent: FC<DiffProps> = ({ diff }) => {
     <>
       <Collapsible
         open={open}
-        className='bg-white border border-gray-400 rounded-md'
+        className='bg-white border border-gray-400 rounded-md select-none'
       >
         <CollapsibleTrigger
           asChild

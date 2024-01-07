@@ -12,17 +12,13 @@ import { setFile } from '@/redux/feature/review.feature';
 import { Label } from '@/components/ui/label';
 import { useAppSelector } from '@/redux/hook';
 
-export default function Sidebar({ files, diff }: { files?: any; diff: any }) {
+export default function Sidebar({ diff }: { diff: any }) {
   const dispatch = useDispatch();
 
   const fileList = useMemo(() => {
     let result;
 
     const arrDiff = parseDiff(String(diff));
-
-    const rawString = String(diff)
-      .split('diff ')
-      .filter((item) => item !== '');
 
     result = arrDiff.reduce((arr: Array<File>, item: File, index: number) => {
       if (/\.(ts|tsx|js|jsx|html|css|scss)$/.test(item.newPath as string)) {
