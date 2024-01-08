@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { Github } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -19,22 +18,19 @@ import {
   FormItem,
   FormMessage,
   FormLabel,
-  FormDescription,
 } from '@/components/ui/form';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import GithubService from '@/services/github';
+import { setCookie } from '@/lib/utils';
+import { useEffect } from 'react';
 
 const FormRepo = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const session = useSession();
 
   const router = useRouter();
@@ -73,7 +69,7 @@ const FormRepo = () => {
         });
       }
     }),
-    githubToken: z.string(),
+    githubToken: z.string().min(6),
   });
 
   const form = useForm<z.infer<typeof schema>>({
@@ -89,20 +85,10 @@ const FormRepo = () => {
     return link;
   };
 
-  const handleStartReview = async (value: z.infer<typeof schema>) => {
-    setIsLoading(true);
-    try {
-      const link = handleFormatLinkRepo(value.repository).split('/');
-      const repo = await GithubService.getRepo(link[0], link[1]);
-      // if (repo) {
-      //   router.push(`/repository/${link[0]}?repository=${link[1]}`);
-      // }
-      router.push(`/repository/${link[0]}?repository=${link[1]}`);
-    } catch (error) {
-      return error;
-    } finally {
-      setIsLoading(false);
-    }
+  const handleStartReview = async (values: z.infer<typeof schema>) => {
+    const link = handleFormatLinkRepo(values.repository).split('/');
+    setCookie('github_token', values.githubToken);
+    router.push(`/repository/${link[0]}?repository=${link[1]}`);
   };
 
   return (
@@ -123,7 +109,12 @@ const FormRepo = () => {
         </h3>
         <Github className='w-10 h-10 text-white' />
 
-        <Dialog>
+        <Dialog
+          onOpenChange={() => {
+            form.setValue('repository', '');
+            form.setValue('githubToken', '');
+          }}
+        >
           <DialogTrigger asChild>
             <Button>Start now 🚀</Button>
           </DialogTrigger>
@@ -168,18 +159,13 @@ const FormRepo = () => {
                               {...field}
                             />
                           </FormControl>
-                          <FormDescription className='text-rose-500'>
-                            If private repository, please enter github token!
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       );
                     }}
                   />
                   <div className='flex justify-end'>
-                    <Button loading={isLoading} type='submit'>
-                      Start review 🚀
-                    </Button>
+                    <Button type='submit'>Start review 🚀</Button>
                   </div>
                 </form>
               </Form>

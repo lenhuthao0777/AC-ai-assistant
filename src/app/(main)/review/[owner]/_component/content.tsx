@@ -27,8 +27,6 @@ export type FileInfoWithDiff = {
 };
 
 export default function Content({ diff }: { diff: any }) {
-  const state = useAppSelector((state) => state.review);
-
   const fileList = useMemo(() => {
     let result;
 

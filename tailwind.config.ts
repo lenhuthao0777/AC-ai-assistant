@@ -75,7 +75,7 @@ const config = {
     },
   },
   plugins: [
-    // require('@tailwindcss/forms'), 
+    require('@tailwindcss/forms'), 
     require('tailwindcss-animate')
   ],
 } satisfies Config;

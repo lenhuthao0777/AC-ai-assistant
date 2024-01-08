@@ -6,7 +6,7 @@ import NextAuthProvider from '@/providers/next-auth.provider';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import ReduxProvider from '@/providers/redux.provider';
-// import TanstackProvider from '@/providers/tanstack.provider';
+import TanstackProvider from '@/providers/tanstack.provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,9 +23,12 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={(cn(inter.className), 'bg-gray-100')}>
-        <NextAuthProvider>
-          <ReduxProvider>{children}</ReduxProvider>
-        </NextAuthProvider>
+        <TanstackProvider>
+          <NextAuthProvider>
+            <ReduxProvider>{children}</ReduxProvider>
+          </NextAuthProvider>
+        </TanstackProvider>
+
         <Toaster />
       </body>
     </html>

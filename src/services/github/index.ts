@@ -58,11 +58,10 @@ class GithubService {
   static getFile(
     owner: string,
     repo: string,
-    pullNumber: number,
     filePath: string
   ) {
     return octokit.request(
-      `GET /repos/{owner}/{repo}/contents/{path}?ref=pull/${pullNumber}`,
+      `GET /repos/{owner}/{repo}/contents/{path}`,
       {
         owner,
         repo,
