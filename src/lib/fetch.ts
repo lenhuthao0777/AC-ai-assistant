@@ -7,13 +7,13 @@ type TFetch = {
 };
 
 export const Fetch = ({ url, method = 'GET', body }: TFetch): Promise<any> => {
-  return fetch(`api/${url}`, {
+  return fetch(`/api/${url}`, {
     method,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
-    body,
+    body: JSON.stringify(body),
   })
     .then((res) => {
-      return res;
+      return res.json();
     })
     .catch((error) => {
       debug(error);

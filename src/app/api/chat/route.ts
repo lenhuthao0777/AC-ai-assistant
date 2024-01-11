@@ -1,31 +1,41 @@
-import { OpenAI } from 'openai';
-import { getServerSession } from 'next-auth';
+import OpenAI from 'openai';
+
 import { NextResponse } from 'next/server';
-import { ChatGptMessage } from '@/lib/openai-stream';
+import {
+  ChatGptMessage,
+  OpenAIStreamPayload,
+  StreamData,
+} from '@/lib/openai-stream';
 
-// const config = {};
-
-// const openai = new OpenAI();
+// export const runtime = 'edge';
 
 export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
-    const session = await getServerSession();
-    if (!session) {
-      return NextResponse.json({ message: 'Authentication' }, { status: 401 });
-    }
 
-    const outboundMessages: ChatGptMessage[] = messages.map(
-      (item: ChatGptMessage) => ({
-        role: 'user',
-        content: messages.message,
-      })
-    );
+    let arrayMessages: any = [];
 
-    console.log(messages);
+    const payload: OpenAIStreamPayload = {
+      model: 'gpt-3.5-turbo',
+      stream: true,
+      messages: messages,
+      temperature: 0.4,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      max_tokens: 150,
+      n: 1,
+    };
 
-    return NextResponse.json('test');
+    const stream = await StreamData(payload);
+
+    // arrayMessages = messages.map((message: any) => ({
+    //   role: message.role,
+    //   content: message.content,
+    // }));
+
+    return new Response(stream);
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json(error, { status: 500 });
   }
 }

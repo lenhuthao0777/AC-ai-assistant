@@ -27,19 +27,32 @@ export type FileInfoWithDiff = {
 };
 
 export default function Content({ diff }: { diff: any }) {
+  // const transform = (diff:any) => {
+
+  // };
+
   const fileList = useMemo(() => {
     let result;
 
+    const rawStrings = String(diff)
+      .split('diff ')
+      .filter((item) => item !== '');
+
     const arrDiff = parseDiff(String(diff));
 
-    result = arrDiff.reduce((arr: Array<File>, item: File, index: number) => {
-      if (/\.(ts|tsx|js|jsx|html|css|scss)$/.test(item.newPath as string)) {
-        arr.push({
-          ...item,
-        });
-      }
-      return arr;
-    }, []);
+    result = arrDiff
+      .map((diff, index) => ({
+        ...diff,
+        rawString: rawStrings[index],
+      }))
+      .reduce((arr: Array<File>, item: File) => {
+        if (/\.(ts|tsx|js|jsx|html|css|scss)$/.test(item.newPath as string)) {
+          arr.push({
+            ...item,
+          });
+        }
+        return arr;
+      }, []);
 
     return result;
   }, [diff]);

@@ -1,5 +1,3 @@
-import { File, Hunk } from 'gitdiff-parser';
-
 export const getReviewPrompt = (content: string) => `
 I'd like you to serve as a code review assistant. I will provide you with code snippets, and you will offer feedback and suggestions for enhancing code quality, readability, and best practices. Focus your responses on code-related aspects, and avoid discussing non-code-related topics. Provide specific examples for each area and limit your recommendations to three per category.
 
