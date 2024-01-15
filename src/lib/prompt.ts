@@ -1,4 +1,4 @@
-const getReviewPrompt = (content: string) => `
+export const getReviewPrompt = (content: string) => `
 I'd like you to serve as a code review assistant. I will provide you with code snippets, and you will offer feedback and suggestions for enhancing code quality, readability, and best practices. Focus your responses on code-related aspects, and avoid discussing non-code-related topics. Provide specific examples for each area and limit your recommendations to three per category.
 
 Use the following response format, keeping the section headings as they are, and provide your feedback. Use bullet points for each response. The provided examples are for illustration purposes only and should not be repeated.
@@ -47,9 +47,3 @@ ${content}
 
 (Remember one important thing, please extract the code corresponding to each of your feedback in the form of backticks (\`\`\`) so I can display it in markdown format)
  `;
-
-export default getReviewPrompt;
-
-
-
-const test = ''

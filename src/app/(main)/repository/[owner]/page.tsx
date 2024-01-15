@@ -16,7 +16,9 @@ export const Page = async ({
     return null;
   }
 
-  return <Repo pulls={pulls.data} />;
+  return (
+    <>{pulls.data ? <Repo pulls={pulls?.data} /> : <div>Empty repo!</div>}</>
+  );
 };
 
 export default Page;

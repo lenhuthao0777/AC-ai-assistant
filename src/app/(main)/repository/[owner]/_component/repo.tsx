@@ -32,17 +32,13 @@ export default function Repo({ pulls }: { pulls: any }) {
     return name;
   }, [pathName, searchParams]);
 
-  console.log(pulls);
-  
-
   return (
     <div className='container mt-5'>
       <Collapsible
         open={isOpen}
-        onOpenChange={setIsOpen}
-        className='w-full bg-white p-5 rounded-t-md'
+        className='w-full bg-white rounded-md border border-gray-400'
       >
-        <CollapsibleTrigger asChild className='py-3'>
+        <CollapsibleTrigger asChild className='py-3 px-5 select-none'>
           <div className='flex items-center justify-between'>
             <div className='flex flex-col'>
               <p className='flex items-center space-x-2'>
@@ -51,22 +47,25 @@ export default function Repo({ pulls }: { pulls: any }) {
                   {tranformRepoName}
                 </span>
               </p>
-              <span className='text-xs text-muted-foreground ml-7 mt-1'>
+              {/* <span className='text-xs text-muted-foreground ml-7 mt-1'>
                 12h
-              </span>
+              </span> */}
             </div>
 
-            <span className='p-2 hover:bg-gray-400 rounded-md'>
-              <ChevronsUpDown className='w-5 h-5' />
+            <span className='p-2 hover:bg-gray-400 rounded-md cursor-pointer'>
+              <ChevronsUpDown
+                className='w-5 h-5'
+                onClick={() => setIsOpen(!isOpen)}
+              />
             </span>
           </div>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <ul className='flex flex-col w-full bg-gray-100'>
+          <ul className='flex flex-col w-full'>
             {pulls.map((pull: any) => (
               <li
                 key={pull?.node_id}
-                className='w-full px-3 py-2 border-t border-gray-400'
+                className='w-full px-5 py-2 border-t border-gray-400'
               >
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center space-x-2'>

@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import GithubService from '@/services/github';
-import Context from './_component/context';
-import Sidebar from './_component/sidebar';
+import Content from './_component/content';
 
 export default async function Page({
   params: { owner },
@@ -11,18 +10,17 @@ export default async function Page({
   params: { owner: string };
   searchParams: { repository: string; pull_number: string };
 }) {
-  const repo = await GithubService.getRepo(owner, repository);
+  const [diff] = await Promise.all([
+    GithubService.getDiff(owner, repository, +pull_number),
+  ]);
 
-  const diff = await GithubService.getDiff(owner, repository, +pull_number);
-
-  if (repo.status !== 200) {
+  if (!diff?.data) {
     redirect('/');
   }
 
   return (
-    <div className='flex'>
-      <Sidebar diff={diff} />
-      <Context diff={diff} />
+    <div className='container'>
+      <Content diff={diff.data} />
     </div>
   );
 }
