@@ -1,7 +1,7 @@
 import { Octokit } from 'octokit';
 import { getCookie } from './utils';
 
-const token = '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';
+const token = '';
 
 const github_token = getCookie('github_token');
 
